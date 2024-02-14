@@ -1,4 +1,5 @@
-1 Problem statement
+1 Problem statement:
+
 My project’s central goal is to enhance the rea- soning inference capabilities of language models through the identification and integration of pre- suppositions from textual data.
 Presuppositions are assumptions or inferences that are implicitly suggested in a statement or question. Identifying and understanding these can be crucial for a language model to fully grasp the context and implications of a sentence, leading to more accurate and nuanced responses.
 My research is motivated by the observation that most language models, while performing well on a surface level, often miss out on these nuanced presuppositions, which can lead to mistakes in in- terpretation and subsequent reasoning tasks. Also, a presupposition is actually a valid data instance that includes true world knowledge and a coher- ent structure like all other sentences, so generating presupposition may help to generate more data if there is not enough data to train.
@@ -8,7 +9,9 @@ a) A model responsible for identifying both static and contextual presupposition
 2) Chosen presuppositions should give best in- formation about the external world or situation that the sentence occured
 b) A language model that will be fed by presup- positions.
 My research aims to push the boundaries of lan- guage models’ inference capabilities by exploring and leveraging the often-overlooked aspect of pre- suppositions in textual data.
-2 What you proposed vs. what you accomplished
+
+2 What you proposed vs. what you accomplished:
+
 1) Building a model to generate presuppositions (Done)
 2) Building a language model to make infer- ences given inputs (Done)
 3) Creating datasets based on external datasets + presuppositions of them (Done)
@@ -18,7 +21,9 @@ My research aims to push the boundaries of lan- guage models’ inference capabi
 7) Creating different models and comparing them: I could not do this because I had to use opeanai to generate presuppositions since free models do not perform well (I will explain more), so with a limited data (only 3600 data examples that has around 10-30 sentences). This will be my next step for this project.
 8) Training a model from scratch: I could not do this because of lack of data again.
 9) Evaluating reasoning capacity of model: I could not do this, I tried but there is limited source and my knowledge and time was limited, I found some projects about evaluating commonsense rea- soning but could not make it work. This is also my next step for this project.
-3 Related work
+
+3 Related work:
+
 I perceive this project’s task as more of a data augmentation technique since the models’ main difference is the datasets that models finetuned.
 Language model with presuppositions
 Ali Taylan Akyu ̈rek
@@ -26,7 +31,9 @@ aakyurek17@ku.edu.tr
 
 There is of course the aspect of how these pre- suppositions will affect the reasoning but since I could not evaluate my model in terms of reason- ing capacity, I will not explain related work about reasoning with NLP.
 In data augmentation end, Natural Language Processing frequently grapples with the challenge of data augmentation. Mainly because defin- ing text transformations that maintain the orig- inal meaning is no easy task, as cited in mul- tiple studies (Kobayashi et al., 2018). A vari- ety of methods have been explored in the realm of research to tackle this issue. These include techniques like word replacement with synonyms (Zhang X et al. 2015) closely associated embed- dings Alzantot et al., EMNLP 2018) and words forecasted by a language model (Fadaee et al., ACL 2017). Other techniques involve deletion (Huong TH et al. 2020) swapping (Wei and Zou, EMNLP-IJCNLP 2019), inducing spelling errors (Coulombe C et al., 2018), and paraphrasing (Ku- mar et al., NAACL 2019) at the word level. Some other methods are backtranslation (Sennrich et al., 2016) and task specific heuristics like in our case (Kafle et al., INLG 2017).
-4 Datasets
+
+4 Datasets:
+
 One of the most important part of my project is my dataset. I have created 3600 data examples that has around 10-30 sentences. That is a little less than usual for finetunning but due to using openai api, I could not create big datasets unfor- tunately. I essentially tried many dataset includ- ing openwebtext, wiki-text, falcon-refinedweb etc. Most successfull dataset I tried was eli5. Reasons of that are: sources like wiki-text has so much fac- tual sentences that explains a topic rather than dis- cussing the topic. Presuppositions are not so in- formative for sentences or statements that explains something. Data examples at Eli5 is more natural and daily, and since the presuppositions are gen- eral assumptions in daily discussions, it was log- ical that presuppositions gave more information for the case of Eli5. I have no evaluation results across the datasets because I was using openai to generate presuppositions and that was costing time and money, so I could not prepare presuppo- sition datasets for other datasets I tried. But I have tried to gain some insight manually and investi- gated presuppositions of examples in each dataset carefully. Based on my findings, I concluded Eli5
 will perform best. If I will have some resources at future, I want to train my model with presup- positions of other datasets as well. Also, I did some significant amount of data cleaning due to problems related to openai responses and data cor- ruptions caused by not getting response from ope- nai due to overloaded requests etc. the codes that I wrote for cleaning data are mainly inside main project folder and MyPRESDataset folders. Also with concatenating my datasets in different com- binations, I created some train datasets to feed the model. These different combinations are:
 Dataset1 onlySentences: I feed the model with basically just sentences. That is the baseline model.
@@ -49,10 +56,14 @@ An example of side-by-side data examples:
 weakest of the four fundamental forces. Is your question why it is weakest? If that’s your ques- tion the answer is basically ”because it is.” One of the forces had to be the weakest and it hap- pens to be gravity.If your question is ”why is it referred to as weak, when it seems so strong.” The answer to that is more fun. You’re probably sit- ting in a chair right now. You’re held to the chair by gravity, but the electromagnetic forces of the bonds in the chair (and your butt) keep you from falling through the chair. So yes, gravity is the weakest, and that weakness allows objects to be stacked, and for your butt to stay above the chair seat. Here’s some more info on the fundamental forces:URL0 Perhaps you can clarify your ques- tion? Or the motives for your question?
 • There is a question that needs to be answered. Gravity is one of the four fundamental forces. The speaker believes that the listener has a ques- tion. The speaker is aware of the question being asked. Gravity is the only force that is weak. The term ”weak” is commonly used to describe things that appear strong but have hidden vulnerabilities. There was a previous question or statement made. You may have been sitting in a chair for a while. The chair is made of materials with strong electro- magnetic bonds. Gravity is a fundamental force in the universe. There is a need for more information on fundamental forces. The person being asked the question has a specific motive for asking.
 And also there is a dataset that contains only- Sentences in one index and corresponding mixed- Pres in next index. I created it only for three pre- supposition.
+
 5 Baselines
+
 Baseline of my project is basically a pretrained distilgpt2 model that finetuned with 3600 regu- lar(presuppositions excluded) data examples that contains 10-30 sentence each. I chosed this base- line model because I want to train a text gener- ation model for casual language modelling and distilgpt2 was a popular pretrained model fort his task. The pretrained distilgpt2 model is a promi- nent choice for text generation tasks due to its small size, which allows for faster training and inference, as well as its impressive performance, which has been demonstrated on numerous NLP benchmarks. I will also try different models that is specialized in different tasks. Model generates completion text based on given input text. I did not
 tuned any hyperparameter since I was using pre- trained models. My train/test split is essenntially I have 3600 examples for training and 800 example for testing.
+
 6 Your approach
+
 To tackle the task of integrating presuppositions into the training of language models, the approach I used involved a two-model system: a model to generate presuppositions (gpt-3.5-turbo), and a model to make inferences given these inputs (dis- tilgpt2).
 The first step of this process was to take the sen- tences from the dataset and use gpt-3.5-turbo to generate presuppositions for each sentence. The outputs of this model were then fed into the second model (distilgpt2), which was tasked with making inferences based on these presuppositions.
 In order to ensure that the presuppositions were significantly different from the original sentence, I provided specific instructions to the gpt-3.5- turbo model to generate presuppositions that of- fered new information about the external world or situation that the sentence occurred in. Then I cle- and the data.
@@ -69,7 +80,9 @@ Presuppositions are highly contextual in na- ture – they rely on understanding
 Why Use These Metrics:
 Perplexity and BERTScore, combined, offer a holistic evaluation of my language models. Per- plexity gives a measure of how well your model can predict the next word, i.e., the fluency of gen- erated text. On the other hand, BERTScore gives a sense of how well your model understands and captures the semantic similarity in the presence of presuppositions. By using both, you get a fuller picture of how well the model handles the task, both in terms of language fluency and semantic comprehension.
 These metrics were ideal for my project because they allowed me to effectively measure the impact of integrating presuppositions into the training of language models. Given that presuppositions add an additional layer of context to the data, using a metric like BERTScore that takes this context into account was crucial for accurately evaluating the models’ performance.
+
 6.1 Results:
+
 Results were not quite like I expected. Below you can find evaluation results for each variant of model.
 Perplexity:
 Sentences only (baseline): 44.66
@@ -107,14 +120,20 @@ p
 
 Normal sentence below sentence- presupposition mix: 0.335
 Results were suprising actually. I can under- stand why sentence-presuppositions mixed exper- iments gave low perplexity since presuppositions between actual sentences may influence coherency negatively. But I would expect models that fed by presuppositions would achieve higher results in BERTScore but baseline model was actually per- formed best with a 0.339 BERTScore. Although one observation is that even though mixed mod- els performed significantly lower in terms of perplexity, they have not much differance with baseline model and other models in terms of BERTScore it achieved. That situation may suggest that its contextual understanding is in- deed developed because even though it has sig- nificantly (around 20 percent) less coherence (low perplexity) if it still performs nearly same with baseline model in terms of BERTScore.
+
 7 Error analysis
+
 It is really difficult to compare the results of dif- ferent experiments with eye test. However, all the models has same issues such as repeated sen- tences. Examples of inputs outputs are exists in ipynb files. On ipynb files, there is output of model (on top) and real completion of sentence. Prompts can be seen via executing this code:
 for line in testData[:200]: prompt, expected- Completion = splitString(line) print(prompt)
 Also, models that has trained with presupposi- tions sometimes may generate presuppositions in- stead normal sentences such as:
  ̇Input: (someone explaining a topic) Output: The speaker is knowledgeable about topic
+ 
 8 Contributions of group members
+
 All the work has done by me and by feedbacks of my instructor Go ̈zde Gu ̈l S ̧ahin.
+
 9 Conclusion
+
 The purpose of this project was to explore the im- pact of integrating presuppositions into the train- ing of language models. This approach was novel and promising, as presuppositions provide addi- tional context that could potentially enhance the model’s ability to understand and generate text.
 However, the results were not as expected. Al- though the models trained with presuppositions exhibited comparable BERTScores to the baseline
 model, the perplexity was generally higher, indi- cating a lower predictive performance. It was sur- prising to see that the baseline model achieved the highest BERTScore, as it was expected that the models trained with presuppositions would have a better semantic understanding and thus a higher score.
@@ -122,8 +141,11 @@ An interesting observation was that, even though the mixed models had significan
 While this experiment did not yield the desired results, it does provide valuable insights for fu- ture work. For instance, it might be beneficial to further investigate the reason why presuppositions did not lead to an improvement in BERTScore, and how they negatively impacted coherence. Ad- ditionally, the idea of training models with pre- suppositions is still relatively unexplored, and it’s possible that different implementation strategies or more complex models might yield better results.
 The project also highlighted some recurring is- sues such as repetition in the generated sentences. Identifying and addressing these issues in future work could further improve the performance of language models.
 Overall, this project sheds light on the poten- tial and challenges of integrating presuppositions into the training of language models. It provides a foundation for future work in this area and un- derlines the importance of continued research to explore new ways to improve the semantic under- standing and coherence of language models.
+
 10
 AI Disclosure
+
+
 • Did you use any AI assistance to complete this proposal? If so, please also specify what AI you used.
 – I used little amount of chatgpt-4.
 If you answered yes to the above question, please
