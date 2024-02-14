@@ -9,8 +9,8 @@ To address this, I’m proposing a two-model system:
 
 a) A model responsible for identifying both static and contextual presuppositions from the sen- tences in a dataset. This model is actually a prompt engineering module that uses gpt-3.5-turbo. I in- structed it in order to:
 
-1) Presupposition generated must be signifi- cantly different from original sentence.
-2) Chosen presuppositions should give best in- formation about the external world or situation that the sentence occured
+1) Presupposition generated must be significantly different from original sentence.
+2) Chosen presuppositions should give best information about the external world or situation that the sentence occured
 
 b) A language model that will be fed by presup- positions.
 
